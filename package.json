@@ -2,6 +2,7 @@
   "name": "circuit",
   "version": "0.1.0",
   "private": true,
+  "description": "Mumbai-only crypto, blockchain, and AI event listings",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
