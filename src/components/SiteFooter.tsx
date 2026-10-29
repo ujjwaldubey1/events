@@ -47,7 +47,11 @@ export function SiteFooter() {
           <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-[10px] tracking-[0.18em] text-white/55 uppercase">
-                Built with love
+                Built with
+                <span className="mx-1 inline-block text-[12px] leading-none tracking-normal text-flare" aria-hidden>
+                  ♥
+                </span>
+                love
                 <span className="font-deva ml-2 normal-case tracking-normal">
                   · प्रेम से
                 </span>
