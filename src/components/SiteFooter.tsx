@@ -8,7 +8,7 @@ export function SiteFooter() {
           className="pointer-events-none absolute inset-0 h-full w-full object-cover object-[center_70%]"
         />
         <div className="absolute inset-0 bg-ink/72" />
-        <div className="relative z-10 mx-auto grid max-w-5xl gap-6 px-5 py-8 sm:grid-cols-3 sm:gap-10">
+        <div className="relative z-10 mx-auto grid max-w-5xl gap-6 px-5 py-10 sm:grid-cols-3 sm:gap-10">
           <div>
             <p className="font-display text-lg italic leading-none">Circuit</p>
             <p className="font-deva mt-1 text-sm text-white/80">मुंबई सर्किट</p>
@@ -43,9 +43,43 @@ export function SiteFooter() {
             </p>
           </div>
         </div>
-        <p className="relative z-10 px-5 pb-2 text-center text-[10px] tracking-wide text-white/35">
-          Marine Drive · Unsplash
-        </p>
+        <div className="relative z-10 mx-auto max-w-5xl border-t border-white/15 px-5 py-6">
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-[10px] tracking-[0.18em] text-white/55 uppercase">
+                Built with love
+                <span className="font-deva ml-2 normal-case tracking-normal">
+                  · प्रेम से
+                </span>
+              </p>
+              <div className="mt-3 flex items-center gap-3">
+                <img
+                  src="/images/partners/maharashtra-dao.png"
+                  alt=""
+                  className="h-14 w-14 rounded-full object-cover"
+                />
+                <p className="text-sm text-white/85">Maharashtra DAO</p>
+              </div>
+            </div>
+            <div>
+              <p className="text-[10px] tracking-[0.18em] text-white/55 uppercase">
+                Partners
+              </p>
+              <div className="mt-3 flex flex-wrap items-center gap-5">
+                <img
+                  src="/images/partners/bi.png"
+                  alt="Bi"
+                  className="h-10 w-10 object-contain"
+                />
+                <img
+                  src="/images/partners/coinscapture.png"
+                  alt="CoinsCapture"
+                  className="h-7 w-auto object-contain"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div className="overflow-hidden bg-cream leading-none" aria-hidden>
         <img

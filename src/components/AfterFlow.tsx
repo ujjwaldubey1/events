@@ -1,17 +1,54 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { mapsUrl, type AfterFlow } from "@/data/flows";
+import {
+  directionsUrl,
+  howToReach,
+  mapsUrl,
+  type AfterFlow,
+  type Hub,
+  type HubOrigin,
+} from "@/data/flows";
 
 const STEP_MS = 1500;
+
+export function HowToGo({
+  how,
+  origin,
+  destination,
+}: {
+  how: string;
+  origin: string;
+  destination: string;
+}) {
+  return (
+    <p className="mt-2 flex flex-wrap items-baseline gap-x-2 gap-y-1 text-xs leading-relaxed">
+      <span className="text-mute">{how}</span>
+      <a
+        href={directionsUrl(origin, destination)}
+        target="_blank"
+        rel="noreferrer"
+        onClick={(event) => event.stopPropagation()}
+        className="ghost-link font-medium text-flare"
+      >
+        How to go
+      </a>
+    </p>
+  );
+}
 
 export function AfterFlowPanel({
   flow,
   focusPlace,
+  hub,
+  origin,
 }: {
   flow: AfterFlow;
   focusPlace?: string;
+  hub: Hub;
+  origin?: HubOrigin;
 }) {
+  const from = origin ?? hub.origin;
   const startIndex = Math.max(
     0,
     focusPlace ? flow.steps.findIndex((step) => step.place === focusPlace) : 0,
@@ -19,13 +56,13 @@ export function AfterFlowPanel({
   const [live, setLive] = useState(startIndex);
 
   useEffect(() => {
-    const from = Math.max(
+    const nextFrom = Math.max(
       0,
       focusPlace ? flow.steps.findIndex((step) => step.place === focusPlace) : 0,
     );
-    setLive(from);
-    const timers = flow.steps.slice(from).map((_, index) =>
-      window.setTimeout(() => setLive(from + index), 280 + index * STEP_MS),
+    setLive(nextFrom);
+    const timers = flow.steps.slice(nextFrom).map((_, index) =>
+      window.setTimeout(() => setLive(nextFrom + index), 280 + index * STEP_MS),
     );
     return () => timers.forEach((timer) => window.clearTimeout(timer));
   }, [flow.id, focusPlace, flow.steps]);
@@ -40,6 +77,10 @@ export function AfterFlowPanel({
           </p>
           <p className="mt-1 font-display text-xl italic text-ink">{flow.label}</p>
           <p className="mt-1 max-w-xl text-sm text-mute">{flow.summary}</p>
+          <p className="mt-2 text-xs text-mute">
+            How to go from {from.name}
+            <span className="font-deva ml-1.5">· कसे जाल</span>
+          </p>
         </div>
         <p className="text-xs text-mute">{flow.steps.length} stops · then, then, then</p>
       </div>
@@ -95,6 +136,11 @@ export function AfterFlowPanel({
                   </p>
                 )}
                 <p className="mt-1 text-sm leading-relaxed text-mute">{step.note}</p>
+                <HowToGo
+                  how={howToReach(hub, step.query)}
+                  origin={from.query}
+                  destination={step.query}
+                />
               </div>
             </li>
           );

@@ -1,4 +1,7 @@
-import { hubByNeighborhood, mapsUrl } from "@/data/around";
+import { hubByNeighborhood } from "@/data/around";
+
+export { directionsUrl, howToReach, mapsUrl } from "@/data/around";
+export type { Hub, HubOrigin } from "@/data/around";
 
 export type Diet = "veg" | "nonveg" | "both";
 
@@ -854,5 +857,3 @@ export function flowById(id: string): AfterFlow | undefined {
     .flat()
     .find((flow) => flow.id === id);
 }
-
-export { mapsUrl };

@@ -4,6 +4,11 @@ export type Spot = {
   query: string;
 };
 
+export type HubOrigin = {
+  name: string;
+  query: string;
+};
+
 export type Hub = {
   id: string;
   pill: string;
@@ -11,6 +16,8 @@ export type Hub = {
   hindi: string;
   after: string;
   forEvents: string;
+  origin: HubOrigin;
+  how: Record<string, string>;
   eat: Spot[];
   try: Spot[];
   see: Spot[];
@@ -24,6 +31,31 @@ export const hubs: Hub[] = [
     hindi: "बीकेसी",
     after: "After Devcon at Jio World Centre",
     forEvents: "Devcon 8, ETHIndia, Stark Space, Onchain Legal, NEAR mixer",
+    origin: {
+      name: "Jio World Centre",
+      query: "Jio World Centre BKC Mumbai",
+    },
+    how: {
+      "O Pedro BKC Mumbai": "8 min walk through G Block from Jio World Centre. Book it.",
+      "Yazu BKC Mumbai": "10 min walk, still in G Block.",
+      "The Daily BKC Mumbai": "5 min walk from Jio World Centre.",
+      "Hitchki BKC Mumbai": "8 min walk, still inside BKC.",
+      "Bombay Sweet Shop BKC Mumbai": "10 min walk in G Block.",
+      "Pa Pa Ya BKC Mumbai": "10 min walk, G Block.",
+      "Elco Pani Puri Bandra Mumbai": "15 min cab to Hill Road, Bandra West.",
+      "Elco Market Bandra Mumbai": "15 min cab to Hill Road, Bandra West.",
+      "Ashok Vada Pav Juhu Mumbai": "20–25 min cab to Juhu.",
+      "Carter Road Bandra Mumbai": "15 min cab to the Bandra sea wall.",
+      "Bandra Fort Mumbai": "15 min cab. Go at blue hour.",
+      "Bandra Bandstand Mumbai": "15 min cab to the promenade.",
+      "Jio Garden BKC Mumbai": "5 min walk, still inside the complex.",
+      "Turner Road pav bhaji Bandra Mumbai": "15 min cab to Bandra West, then on foot.",
+      "Natural Ice Cream Bandra Mumbai": "15 min cab to Bandra.",
+      "Suzette Bandra Mumbai": "15 min cab to Pali / Bandra West.",
+      "Candies Pali Hill Bandra Mumbai": "15 min cab to Pali Hill.",
+      "Chapel Road Bandra Mumbai": "15 min cab, then a short walk through Bandra.",
+      "Pali Village Cafe Bandra Mumbai": "15 min cab to Pali Hill. Book it.",
+    },
     eat: [
       {
         name: "O Pedro",
@@ -98,6 +130,23 @@ export const hubs: Hub[] = [
     hindi: "विले पार्ले",
     after: "After India Blockchain Week at Fairmont Mumbai",
     forEvents: "IBW Conference, Institutional Forum, Future Asset Forum",
+    origin: {
+      name: "Fairmont Mumbai",
+      query: "Fairmont Mumbai Vile Parle",
+    },
+    how: {
+      "Gajalee Vile Parle Mumbai": "8–10 min cab from Fairmont. The closest proper seafood room.",
+      "Cafe Madras Matunga Mumbai": "25 min cab to Matunga. Worth it for dinner or a late breakfast.",
+      "Aaswad Dadar Mumbai": "20 min cab to Dadar West.",
+      "Mahesh Lunch Home Juhu Mumbai": "12 min cab to Juhu.",
+      "Amar Juice Centre Juhu Mumbai": "12 min cab to Juhu.",
+      "Prithvi Cafe Juhu Mumbai": "12 min cab to Juhu.",
+      "Juhu Chowpatty Mumbai": "12 min cab. Walk the sand after you eat.",
+      "Natural Ice Cream Juhu Mumbai": "12 min cab to the original Juhu parlour.",
+      "Juhu Beach Mumbai": "12 min cab from Fairmont to the water.",
+      "ISKCON Juhu Mumbai": "15 min cab to Juhu.",
+      "Jaya He Museum T2 Mumbai Airport": "Fairmont sits on T2. Walk airside if you are already in the terminal.",
+    },
     eat: [
       {
         name: "Gajalee",
@@ -172,6 +221,23 @@ export const hubs: Hub[] = [
     hindi: "अंधेरी",
     after: "After DeFi Security Summit & Unchained at Courtyard Marriott",
     forEvents: "DeFi Security Summit, Unchained Summit India",
+    origin: {
+      name: "Courtyard by Marriott",
+      query: "Courtyard by Marriott Mumbai International Airport",
+    },
+    how: {
+      "Joeys Pizza Versova Mumbai": "15 min cab to Versova. Queue or take away.",
+      "Mahesh Lunch Home Juhu Mumbai": "12 min cab towards Juhu.",
+      "Farmers Cafe Versova Mumbai": "15 min cab to Versova.",
+      "Bawarchi Andheri Mumbai": "10 min cab in Andheri.",
+      "Udupi restaurant Andheri West Mumbai": "10 min cab, Andheri West.",
+      "Versova Beach Mumbai": "15 min cab to the water.",
+      "Lokhandwala Market Andheri Mumbai": "12 min cab. Stays open after the summit.",
+      "SV Road Andheri Mumbai": "8 min cab. Ask for cutting chai.",
+      "Vada pav SV Road Andheri Mumbai": "8 min cab to any crowded stall on SV Road.",
+      "Lokhandwala Andheri Mumbai": "12 min cab, then walk the market.",
+      "Juhu Beach Mumbai": "12 min cab north along the coast.",
+    },
     eat: [
       {
         name: "Joey's Pizza",
@@ -241,6 +307,27 @@ export const hubs: Hub[] = [
     hindi: "बांद्रा",
     after: "After Monad Blitz, or any BKC night that should not stay in BKC",
     forEvents: "Monad Blitz Mumbai, evenings off BKC",
+    origin: {
+      name: "Bandra West",
+      query: "Bandra West Mumbai",
+    },
+    how: {
+      "Pali Village Cafe Bandra Mumbai": "5–8 min walk in Pali Hill. Book it this week.",
+      "Candies Pali Hill Bandra Mumbai": "5 min walk, Pali Hill.",
+      "Suzette Bandra Mumbai": "8 min walk from Pali / Hill Road.",
+      "Elco Pani Puri Bandra Mumbai": "8 min walk or a short rickshaw to Hill Road.",
+      "Totos Garage Bandra Mumbai": "8 min walk in Pali.",
+      "Elco Market Bandra Mumbai": "8 min walk to Hill Road.",
+      "Carter Road Bandra Mumbai": "10 min rickshaw to the sea wall.",
+      "Turner Road pav bhaji Bandra Mumbai": "8 min walk to Turner Road.",
+      "Bandra Fort Sea Link Mumbai": "10 min rickshaw to the fort.",
+      "Chapel Road Bandra Mumbai": "10 min walk through the neighbourhood.",
+      "Mount Mary Church Bandra Mumbai": "10 min walk uphill.",
+      "Hill Road kebabs Bandra Mumbai": "8 min walk to Hill Road. Follow the smoke after 11.",
+      "Bandra Fort Mumbai": "10 min rickshaw. Stay for the Sea Link lights.",
+      "Bandra Bandstand Mumbai": "10 min rickshaw to the promenade.",
+      "Natural Ice Cream Bandra Mumbai": "8 min walk or a short rickshaw.",
+    },
     eat: [
       {
         name: "Pali Village Café",
@@ -310,6 +397,24 @@ export const hubs: Hub[] = [
     hindi: "कोलाबा",
     after: "When you leave the north and remember this is still Bombay",
     forEvents: "City nights, last days, anyone who came for Gateway not only G Block",
+    origin: {
+      name: "Gateway of India",
+      query: "Gateway of India Mumbai",
+    },
+    how: {
+      "Britannia and Co Ballard Estate Mumbai": "10 min cab to Ballard Estate. Lunch only — they close when they close.",
+      "Trishna Fort Mumbai": "8 min cab or 15 min walk to Fort. Book.",
+      "Chetana restaurant Kala Ghoda Mumbai": "10 min cab to Kala Ghoda.",
+      "Kyani and Co Mumbai": "15 min cab to Dhobi Talao. Go before they tire of the day.",
+      "Bademiya Colaba Mumbai": "5 min walk from Gateway, behind the Taj.",
+      "Leopold Cafe Colaba Mumbai": "8 min walk down Colaba Causeway.",
+      "Girgaum Chowpatty Mumbai": "15 min cab. Eat on the sand, then walk the Queen's Necklace.",
+      "Gateway of India Mumbai": "You are here. Go at blue hour, not noon.",
+      "Marine Drive Mumbai": "15 min cab, or walk it from Chowpatty to Nariman Point.",
+      "Chhatrapati Shivaji Maharaj Terminus Mumbai": "15 min cab to the UNESCO station.",
+      "Kala Ghoda Cafe Mumbai": "10 min cab to Fort / Kala Ghoda.",
+      "Colaba Causeway Mumbai": "8 min walk from Gateway.",
+    },
     eat: [
       {
         name: "Britannia & Co",
@@ -381,6 +486,22 @@ export const hubs: Hub[] = [
 
 export function mapsUrl(query: string) {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+}
+
+export function directionsUrl(origin: string, destination: string) {
+  return `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(destination)}`;
+}
+
+export function howToReach(hub: Hub, query: string) {
+  return hub.how[query] ?? `Cab or auto from ${hub.origin.name}.`;
+}
+
+export function originFromVenue(venue?: string, neighborhood?: string, address?: string): HubOrigin | undefined {
+  if (!venue || venue === "Mumbai") return undefined;
+  return {
+    name: venue,
+    query: address ?? `${venue}, ${neighborhood ?? "Mumbai"}, Mumbai`,
+  };
 }
 
 export const hubByNeighborhood: Record<string, string> = {

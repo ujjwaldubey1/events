@@ -4,9 +4,9 @@
   "private": true,
   "description": "Mumbai-only crypto, blockchain, and AI event listings",
   "scripts": {
-    "dev": "next dev",
+    "dev": "node --max-http-header-size=131072 ./node_modules/next/dist/bin/next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "node --max-http-header-size=131072 ./node_modules/next/dist/bin/next start",
     "lint": "eslint"
   },
   "dependencies": {

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { EventAfter } from "@/components/EventAfter";
+import { originFromVenue } from "@/data/around";
 import { events } from "@/data/events";
 import { dayPlaces, formatTime, groupByStartDay, WEEK_START_MS } from "@/lib/format";
 
@@ -97,7 +98,14 @@ export function DayList() {
                         </a>
                       </div>
                       {event.featured ? (
-                        <EventAfter neighborhood={event.neighborhood} />
+                        <EventAfter
+                          neighborhood={event.neighborhood}
+                          from={originFromVenue(
+                            event.venue,
+                            event.neighborhood,
+                            event.address,
+                          )}
+                        />
                       ) : null}
                     </li>
                   ))}

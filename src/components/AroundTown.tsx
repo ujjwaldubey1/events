@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useState, type ReactNode } from "react";
-import { AfterChips, AfterFlowPanel } from "@/components/AfterFlow";
-import { hubs, mapsUrl, type Hub, type Spot } from "@/data/around";
+import { AfterChips, AfterFlowPanel, HowToGo } from "@/components/AfterFlow";
+import { howToReach, hubs, type Hub, type Spot } from "@/data/around";
 import { flowsByHub, type AfterFlow, type FlowStep } from "@/data/flows";
 
 const PREVIEW = 3;
@@ -71,25 +71,30 @@ function placesFromFlows(flows: AfterFlow[]) {
 
 function PlaceButton({
   step,
+  hub,
   onOpen,
 }: {
   step: FlowStep;
+  hub: Hub;
   onOpen: () => void;
 }) {
   return (
-    <button
-      type="button"
-      onClick={onOpen}
-      className="lift w-full cursor-pointer rounded-xl border border-line bg-cream px-4 py-3 text-left"
-    >
-      <span className="font-medium text-ink">{step.place}</span>
-      {step.dish ? (
-        <span className="mt-1 block text-sm text-flare">{step.dish}</span>
-      ) : null}
-      <span className="mt-1 line-clamp-2 block text-xs leading-relaxed text-mute">
-        {step.note}
-      </span>
-    </button>
+    <div className="lift rounded-xl border border-line bg-cream px-4 py-3">
+      <button type="button" onClick={onOpen} className="w-full cursor-pointer text-left">
+        <span className="font-medium text-ink">{step.place}</span>
+        {step.dish ? (
+          <span className="mt-1 block text-sm text-flare">{step.dish}</span>
+        ) : null}
+        <span className="mt-1 line-clamp-2 block text-xs leading-relaxed text-mute">
+          {step.note}
+        </span>
+      </button>
+      <HowToGo
+        how={howToReach(hub, step.query)}
+        origin={hub.origin.query}
+        destination={step.query}
+      />
+    </div>
   );
 }
 
@@ -125,11 +130,13 @@ function SeeMoreList<T>({
 function HubColumn({
   label,
   hindi,
+  hub,
   items,
   onOpen,
 }: {
   label: string;
   hindi: string;
+  hub: Hub;
   items: Spot[];
   onOpen: (spot: Spot) => void;
 }) {
@@ -149,14 +156,11 @@ function HubColumn({
               {spot.name}
             </button>
             <p className="mt-1 line-clamp-2 text-sm leading-relaxed text-mute">{spot.note}</p>
-            <a
-              href={mapsUrl(spot.query)}
-              target="_blank"
-              rel="noreferrer"
-              className="ghost-link mt-1 inline-block cursor-pointer text-xs text-flare"
-            >
-              Maps
-            </a>
+            <HowToGo
+              how={howToReach(hub, spot.query)}
+              origin={hub.origin.query}
+              destination={spot.query}
+            />
           </div>
         )}
       />
@@ -246,8 +250,8 @@ export function AroundTown() {
         </h2>
         <p className="mt-4 max-w-xl text-base leading-relaxed text-mute">
           Pick a trail: veg, non-veg, famous dishes, a walk. Each one plays as
-          a sequence: this, then this, then this. Click any table to start from
-          there.
+          a sequence: this, then this, then this. Every table has how to get
+          there from {hub.origin.name}. Click a place to start from there.
         </p>
 
         <div className="mt-8 flex flex-wrap gap-2">
@@ -285,7 +289,9 @@ export function AroundTown() {
           <AfterChips flows={flows} openId={openId} onToggle={openFlow} />
         </div>
 
-        {selected ? <AfterFlowPanel flow={selected} focusPlace={focusPlace} /> : null}
+        {selected ? (
+          <AfterFlowPanel flow={selected} focusPlace={focusPlace} hub={hub} />
+        ) : null}
 
         <div className="mt-10 grid items-stretch gap-4 sm:grid-cols-2">
           <article className="flex h-full flex-col rounded-2xl border border-line bg-card px-5 py-5">
@@ -297,6 +303,7 @@ export function AroundTown() {
                 <PlaceButton
                   key={step.place}
                   step={step}
+                  hub={hub}
                   onOpen={() => openPlace(step)}
                 />
               )}
@@ -311,6 +318,7 @@ export function AroundTown() {
                 <PlaceButton
                   key={step.place}
                   step={step}
+                  hub={hub}
                   onOpen={() => openPlace(step)}
                 />
               )}
@@ -322,18 +330,21 @@ export function AroundTown() {
           <HubColumn
             label="Eat"
             hindi="खाणे"
+            hub={hub}
             items={hub.eat}
             onOpen={(spot) => openSpot(spot, "eat")}
           />
           <HubColumn
             label="Try"
             hindi="चाखणे"
+            hub={hub}
             items={hub.try}
             onOpen={(spot) => openSpot(spot, "try")}
           />
           <HubColumn
             label="See"
             hindi="पाहणे"
+            hub={hub}
             items={hub.see}
             onOpen={(spot) => openSpot(spot, "see")}
           />
