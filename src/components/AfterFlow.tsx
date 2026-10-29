@@ -16,24 +16,51 @@ export function HowToGo({
   how,
   origin,
   destination,
+  from,
 }: {
   how: string;
   origin: string;
   destination: string;
+  from?: string;
 }) {
+  const [open, setOpen] = useState(false);
+
   return (
-    <p className="mt-2 flex flex-wrap items-baseline gap-x-2 gap-y-1 text-xs leading-relaxed">
-      <span className="text-mute">{how}</span>
-      <a
-        href={directionsUrl(origin, destination)}
-        target="_blank"
-        rel="noreferrer"
-        onClick={(event) => event.stopPropagation()}
-        className="ghost-link font-medium text-flare"
+    <div className="mt-2">
+      <button
+        type="button"
+        aria-expanded={open}
+        onClick={(event) => {
+          event.stopPropagation();
+          setOpen((current) => !current);
+        }}
+        className="ghost-link cursor-pointer text-xs font-medium text-flare"
       >
-        How to go
-      </a>
-    </p>
+        {open ? "Hide how to go" : "How to go"}
+      </button>
+      <div className={`reveal ${open ? "open" : ""}`} inert={open ? undefined : true}>
+        <div>
+          <div className="mt-2 rounded-xl border border-line bg-card px-3 py-3">
+            {from ? (
+              <p className="text-[11px] tracking-[0.16em] text-mute uppercase">
+                From {from}
+                <span className="font-deva ml-1.5 normal-case tracking-normal">· कसे जाल</span>
+              </p>
+            ) : null}
+            <p className="mt-1 text-sm leading-relaxed text-ink">{how}</p>
+            <a
+              href={directionsUrl(origin, destination)}
+              target="_blank"
+              rel="noreferrer"
+              onClick={(event) => event.stopPropagation()}
+              className="chip mt-3 inline-flex cursor-pointer rounded-full border border-flare px-3 py-1.5 text-xs font-medium text-flare hover:bg-flare hover:text-white"
+            >
+              See on Google Maps
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -140,6 +167,7 @@ export function AfterFlowPanel({
                   how={howToReach(hub, step.query)}
                   origin={from.query}
                   destination={step.query}
+                  from={from.name}
                 />
               </div>
             </li>

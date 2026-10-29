@@ -93,6 +93,7 @@ function PlaceButton({
         how={howToReach(hub, step.query)}
         origin={hub.origin.query}
         destination={step.query}
+        from={hub.origin.name}
       />
     </div>
   );
@@ -160,6 +161,7 @@ function HubColumn({
               how={howToReach(hub, spot.query)}
               origin={hub.origin.query}
               destination={spot.query}
+              from={hub.origin.name}
             />
           </div>
         )}
