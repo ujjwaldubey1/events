@@ -58,6 +58,12 @@ export function HeroActions() {
       >
         Add to calendar
       </button>
+      <a
+        href="#list-event"
+        className="chip cursor-pointer rounded-full border border-white px-5 py-2.5 text-sm font-medium text-white hover:bg-white hover:text-flare"
+      >
+        Add an event
+      </a>
     </div>
   );
 }

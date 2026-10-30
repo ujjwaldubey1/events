@@ -198,6 +198,22 @@ button:disabled {
   overflow: hidden;
 }
 
+.field {
+  display: block;
+  width: 100%;
+  border-radius: 0.9rem;
+  border: 1px solid var(--line);
+  background: var(--cream);
+  padding: 0.7rem 0.9rem;
+  color: var(--ink);
+  font: inherit;
+}
+
+.field:focus {
+  outline: 2px solid var(--flare);
+  outline-offset: 1px;
+}
+
 @keyframes flowIn {
   from {
     opacity: 0;

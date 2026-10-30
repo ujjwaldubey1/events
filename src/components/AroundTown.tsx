@@ -244,16 +244,16 @@ export function AroundTown() {
     <section id="around" className="border-t border-line bg-cream px-5 py-16">
       <div className="mx-auto max-w-5xl">
         <p className="text-xs tracking-[0.28em] text-mute uppercase">
-          Between sessions
-          <span className="font-deva ml-2 normal-case tracking-normal">· नंतर काय</span>
+          After the event
+          <span className="font-deva ml-2 normal-case tracking-normal">· खाणे आणि फिरणे</span>
         </p>
         <h2 className="mt-3 font-display text-4xl italic tracking-tight text-ink sm:text-5xl">
-          After the room
+          Where to eat and walk
         </h2>
         <p className="mt-4 max-w-xl text-base leading-relaxed text-mute">
-          Pick a trail: veg, non-veg, famous dishes, a walk. Each one plays as
-          a sequence: this, then this, then this. Every table has how to get
-          there from {hub.origin.name}. Click a place to start from there.
+          Nearby dinners, famous dishes, and short walks from the venue — plus
+          how to get to each stop from {hub.origin.name}. Pick veg, non-veg,
+          dishes, or a walk.
         </p>
 
         <div className="mt-8 flex flex-wrap gap-2">

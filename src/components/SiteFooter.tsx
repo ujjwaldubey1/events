@@ -28,7 +28,12 @@ export function SiteFooter() {
               </li>
               <li>
                 <a href="#around" className="ghost-link cursor-pointer hover:text-gold">
-                  After the room
+                  Eat & walk
+                </a>
+              </li>
+              <li>
+                <a href="#list-event" className="ghost-link cursor-pointer hover:text-gold">
+                  Add event
                 </a>
               </li>
             </ul>

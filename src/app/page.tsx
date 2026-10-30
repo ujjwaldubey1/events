@@ -2,6 +2,7 @@ import { AroundTown } from "@/components/AroundTown";
 import { DayList } from "@/components/DayList";
 import { HeroActions } from "@/components/HeroActions";
 import { SiteFooter } from "@/components/SiteFooter";
+import { SubmitEvent } from "@/components/SubmitEvent";
 
 export default function Home() {
   return (
@@ -22,7 +23,10 @@ export default function Home() {
               Events
             </a>
             <a href="#around" className="ghost-link cursor-pointer opacity-90 hover:opacity-100">
-              After
+              Eat & walk
+            </a>
+            <a href="#list-event" className="ghost-link cursor-pointer opacity-90 hover:opacity-100">
+              Add event
             </a>
           </nav>
         </header>
@@ -69,6 +73,7 @@ export default function Home() {
       </section>
 
       <DayList />
+      <SubmitEvent />
       <AroundTown />
       <SiteFooter />
     </div>

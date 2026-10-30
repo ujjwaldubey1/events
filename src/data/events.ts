@@ -403,6 +403,28 @@ export const events: CityEvent[] = [
     ],
   },
   {
+    slug: "devcon-builders-evening",
+    title: "Devcon Builders Evening",
+    subtitle: "Canton Foundation × Ledger × OpenZeppelin",
+    description:
+      "An invite-only sundowner in BKC with Canton Foundation, Ledger, and OpenZeppelin: curated networking, food, and drinks. Limited seats. Curated by Wagmi Tribe.",
+    category: "blockchain",
+    types: ["mixer"],
+    start: "2026-11-05T16:00:00+05:30",
+    end: "2026-11-05T19:00:00+05:30",
+    venue: "Bandra Kurla Complex",
+    neighborhood: "BKC",
+    hosts: ["Canton Foundation", "Ledger", "OpenZeppelin", "Wagmi Tribe"],
+    registrationUrl: "https://luma.com/4s9s062i",
+    cost: "approval",
+    featured: true,
+    highlights: [
+      "Invite-only, limited seats",
+      "Curated by Wagmi Tribe",
+      "Sundowner in BKC, 4–7 PM",
+    ],
+  },
+  {
     slug: "near-quantus-mixer",
     title: "NEAR × Quantus Networking Mixer",
     description:

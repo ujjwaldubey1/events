@@ -36,9 +36,9 @@ export function EventAfter({
         }}
         className="ghost-link cursor-pointer text-xs font-medium text-flare"
       >
-        {open ? "Close" : "Things to do after this"}
+        {open ? "Close" : "Eat and walk nearby"}
         <span className="font-deva ml-1.5 font-normal text-mute">
-          {open ? "" : "· नंतर काय"}
+          {open ? "" : "· खाणे आणि फिरणे"}
         </span>
       </button>
 
@@ -46,8 +46,8 @@ export function EventAfter({
         <div>
           <div className="mt-3">
             <p className="mb-3 text-xs text-mute">
-              From {origin.name}: veg, non-veg, dishes, a walk. Each stop has
-              how to go.
+              Nearby food and walks from {origin.name}. Veg, non-veg, dishes,
+              or a walk — each stop has how to go.
             </p>
             <AfterChips
               flows={flows}

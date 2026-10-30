@@ -1,15 +1,38 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { EventAfter } from "@/components/EventAfter";
 import { originFromVenue } from "@/data/around";
 import { events } from "@/data/events";
 import { dayPlaces, formatTime, groupByStartDay, WEEK_START_MS } from "@/lib/format";
+import { PENDING_EVENT, readPendingEvents } from "@/lib/pendingEvents";
+import type { CityEvent } from "@/lib/types";
 
 export function DayList() {
-  const days = groupByStartDay(
-    events.filter((event) => Date.parse(event.start) >= WEEK_START_MS),
-  );
+  const [pending, setPending] = useState<CityEvent[]>([]);
+
+  useEffect(() => {
+    function sync() {
+      setPending(readPendingEvents());
+    }
+    sync();
+    window.addEventListener(PENDING_EVENT, sync);
+    window.addEventListener("storage", sync);
+    return () => {
+      window.removeEventListener(PENDING_EVENT, sync);
+      window.removeEventListener("storage", sync);
+    };
+  }, []);
+
+  const listed = useMemo(() => {
+    const official = new Set(events.map((event) => event.slug));
+    return [
+      ...events,
+      ...pending.filter((event) => !official.has(event.slug)),
+    ].filter((event) => Date.parse(event.start) >= WEEK_START_MS);
+  }, [pending]);
+
+  const days = groupByStartDay(listed);
   const [active, setActive] = useState(days[0]?.key ?? "");
   const [flash, setFlash] = useState<string | null>(null);
 
@@ -49,6 +72,9 @@ export function DayList() {
         <p className="mt-5 text-sm text-mute">
           All times are shown in Indian Standard Time
           <span className="font-deva ml-2">· भारतीय प्रमाण वेळ</span>
+          <a href="#list-event" className="ghost-link ml-3 text-flare">
+            Add an event
+          </a>
         </p>
 
         <div className="mt-10 space-y-14">
@@ -82,6 +108,11 @@ export function DayList() {
                           <span className="min-w-0">
                             <span className="block font-medium leading-snug text-ink">
                               {event.title}
+                              {pending.some((item) => item.slug === event.slug) ? (
+                                <span className="ml-2 text-[10px] font-normal tracking-[0.14em] text-flare uppercase">
+                                  Yours
+                                </span>
+                              ) : null}
                             </span>
                             <span className="mt-0.5 block text-xs text-mute">
                               {event.venue} · {event.neighborhood}

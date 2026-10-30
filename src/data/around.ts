@@ -29,8 +29,8 @@ export const hubs: Hub[] = [
     pill: "BKC · Devcon",
     area: "Bandra Kurla Complex",
     hindi: "बीकेसी",
-    after: "After Devcon at Jio World Centre",
-    forEvents: "Devcon 8, ETHIndia, Stark Space, Onchain Legal, NEAR mixer",
+    after: "Near Jio World Centre, after Devcon",
+    forEvents: "Devcon 8, ETHIndia, Stark Space, Onchain Legal, NEAR mixer, Builders Evening",
     origin: {
       name: "Jio World Centre",
       query: "Jio World Centre BKC Mumbai",
@@ -128,7 +128,7 @@ export const hubs: Hub[] = [
     pill: "Vile Parle · IBW",
     area: "Vile Parle / Juhu",
     hindi: "विले पार्ले",
-    after: "After India Blockchain Week at Fairmont Mumbai",
+    after: "Near Fairmont Mumbai, after IBW",
     forEvents: "IBW Conference, Institutional Forum, Future Asset Forum",
     origin: {
       name: "Fairmont Mumbai",
@@ -219,7 +219,7 @@ export const hubs: Hub[] = [
     pill: "Andheri",
     area: "Andheri / Versova",
     hindi: "अंधेरी",
-    after: "After DeFi Security Summit & Unchained at Courtyard Marriott",
+    after: "Near Courtyard Marriott, after the Andheri summits",
     forEvents: "DeFi Security Summit, Unchained Summit India",
     origin: {
       name: "Courtyard by Marriott",
@@ -305,7 +305,7 @@ export const hubs: Hub[] = [
     pill: "Bandra",
     area: "Bandra West",
     hindi: "बांद्रा",
-    after: "After Monad Blitz, or any BKC night that should not stay in BKC",
+    after: "Near Bandra West, after Monad Blitz",
     forEvents: "Monad Blitz Mumbai, evenings off BKC",
     origin: {
       name: "Bandra West",
@@ -395,7 +395,7 @@ export const hubs: Hub[] = [
     pill: "Colaba",
     area: "Colaba / Fort / Marine Drive",
     hindi: "कोलाबा",
-    after: "When you leave the north and remember this is still Bombay",
+    after: "Near Gateway of India, south Mumbai",
     forEvents: "City nights, last days, anyone who came for Gateway not only G Block",
     origin: {
       name: "Gateway of India",
