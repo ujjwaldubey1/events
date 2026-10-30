@@ -73,8 +73,8 @@ export default function Home() {
       </section>
 
       <DayList />
-      <SubmitEvent />
       <AroundTown />
+      <SubmitEvent />
       <SiteFooter />
     </div>
   );

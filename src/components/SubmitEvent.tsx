@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
-import { events } from "@/data/events";
-import { addPendingEvent, slugFromTitle } from "@/lib/pendingEvents";
+import { useState, type FormEvent, type ReactNode } from "react";
+import { ADDED_EVENT } from "@/lib/eventSlug";
 import type { Cost, EventType } from "@/lib/types";
 
 const neighborhoods = [
@@ -14,49 +13,112 @@ const neighborhoods = [
   "Mumbai",
 ];
 
-const ISSUE_URL = "https://github.com/ujjwaldubey1/events/issues/new";
+const kinds: { value: EventType; label: string }[] = [
+  { value: "mixer", label: "Mixer" },
+  { value: "meetup", label: "Meetup" },
+  { value: "conference", label: "Conference" },
+  { value: "workshop", label: "Workshop" },
+  { value: "hackathon", label: "Hackathon" },
+  { value: "summit", label: "Summit" },
+];
+
+const entries: { value: Cost; label: string }[] = [
+  { value: "free", label: "Free" },
+  { value: "paid", label: "Paid" },
+  { value: "approval", label: "Invite only" },
+];
 
 function toIso(date: string, time: string) {
   return `${date}T${time}:00+05:30`;
 }
 
+function Field({
+  label,
+  hint,
+  className = "",
+  children,
+}: {
+  label: string;
+  hint?: string;
+  className?: string;
+  children: ReactNode;
+}) {
+  return (
+    <label className={`flex flex-col gap-2 ${className}`}>
+      <span className="flex items-baseline justify-between gap-3">
+        <span className="text-[11px] tracking-[0.18em] text-mute uppercase">{label}</span>
+        {hint ? <span className="text-[11px] text-mute/80">{hint}</span> : null}
+      </span>
+      {children}
+    </label>
+  );
+}
+
+function Chips<T extends string>({
+  label,
+  value,
+  options,
+  onChange,
+}: {
+  label: string;
+  value: T;
+  options: { value: T; label: string }[];
+  onChange: (value: T) => void;
+}) {
+  return (
+    <fieldset className="min-w-0">
+      <legend className="text-[11px] tracking-[0.18em] text-mute uppercase">{label}</legend>
+      <div className="mt-2 flex flex-wrap gap-2">
+        {options.map((option) => (
+          <button
+            key={option.value}
+            type="button"
+            onClick={() => onChange(option.value)}
+            className={`chip cursor-pointer rounded-full px-3.5 py-1.5 text-sm font-medium ${
+              option.value === value
+                ? "bg-flare text-white"
+                : "border border-line bg-cream text-ink hover:border-flare hover:text-flare"
+            }`}
+          >
+            {option.label}
+          </button>
+        ))}
+      </div>
+    </fieldset>
+  );
+}
+
 export function SubmitEvent() {
   const [sent, setSent] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
   const [title, setTitle] = useState("");
+  const [neighborhood, setNeighborhood] = useState("BKC");
+  const [type, setType] = useState<EventType>("mixer");
+  const [cost, setCost] = useState<Cost>("approval");
 
-  function onSubmit(event: FormEvent<HTMLFormElement>) {
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    const eventTitle = String(form.get("title") ?? "").trim();
-    const hosts = String(form.get("hosts") ?? "")
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const eventTitle = String(data.get("title") ?? "").trim();
+    const hosts = String(data.get("hosts") ?? "")
       .split(",")
       .map((host) => host.trim())
       .filter(Boolean);
-    const date = String(form.get("date") ?? "");
-    const startTime = String(form.get("start") ?? "");
-    const endTime = String(form.get("end") ?? "");
-    const venue = String(form.get("venue") ?? "").trim();
-    const neighborhood = String(form.get("neighborhood") ?? "Mumbai");
-    const registrationUrl = String(form.get("link") ?? "").trim();
-    const description = String(form.get("description") ?? "").trim();
-    const cost = (String(form.get("cost") ?? "free") as Cost) || "free";
-    const type = (String(form.get("type") ?? "meetup") as EventType) || "meetup";
+    const date = String(data.get("date") ?? "");
+    const startTime = String(data.get("start") ?? "");
+    const endTime = String(data.get("end") ?? "");
+    const venue = String(data.get("venue") ?? "").trim();
+    const registrationUrl = String(data.get("link") ?? "").trim();
+    const description = String(data.get("description") ?? "").trim();
 
     if (!eventTitle || !date || !startTime || !venue || !registrationUrl) return;
 
-    const slugBase = slugFromTitle(eventTitle) || "mumbai-event";
-    const taken = new Set([
-      ...events.map((item) => item.slug),
-    ]);
-    let slug = slugBase;
-    let n = 2;
-    while (taken.has(slug)) {
-      slug = `${slugBase}-${n}`;
-      n += 1;
-    }
+    setSaving(true);
+    setError("");
 
     const listing = {
-      slug,
       title: eventTitle,
       description:
         description ||
@@ -72,34 +134,31 @@ export function SubmitEvent() {
       cost,
     };
 
-    addPendingEvent(listing);
-    setTitle(eventTitle);
-    setSent(true);
-
-    const body = [
-      `Title: ${listing.title}`,
-      `Hosts: ${listing.hosts.join(", ")}`,
-      `When: ${listing.start} → ${listing.end}`,
-      `Where: ${listing.venue}, ${listing.neighborhood}`,
-      `Link: ${listing.registrationUrl}`,
-      `Cost: ${listing.cost}`,
-      `Type: ${type}`,
-      "",
-      listing.description,
-    ].join("\n");
-
-    window.open(
-      `${ISSUE_URL}?title=${encodeURIComponent(`List event: ${listing.title}`)}&body=${encodeURIComponent(body)}`,
-      "_blank",
-      "noopener,noreferrer",
-    );
-
-    event.currentTarget.reset();
+    try {
+      const response = await fetch("/api/events", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(listing),
+      });
+      const payload = (await response.json()) as { error?: string };
+      if (!response.ok) {
+        setError(payload.error || "Could not add that event.");
+        return;
+      }
+      window.dispatchEvent(new Event(ADDED_EVENT));
+      setTitle(eventTitle);
+      setSent(true);
+      form.reset();
+    } catch {
+      setError("Could not add that event.");
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (
     <section id="list-event" className="border-t border-line bg-cream px-5 py-16">
-      <div className="mx-auto max-w-3xl">
+      <div className="mx-auto max-w-5xl">
         <p className="text-xs tracking-[0.28em] text-mute uppercase">
           Running a room
           <span className="font-deva ml-2 normal-case tracking-normal">· कार्यक्रम जोडा</span>
@@ -109,145 +168,134 @@ export function SubmitEvent() {
         </h2>
         <p className="mt-4 max-w-xl text-base leading-relaxed text-mute">
           Mixer, meetup, side room, or sundowner this week in Mumbai. Send the
-          time, place, and link. It shows on this page, and we get a request to
-          list it for everyone.
+          time, place, and link. Add to Circuit puts it on the week list.
         </p>
 
         {sent ? (
-          <p className="mt-8 rounded-2xl border border-line bg-card px-5 py-4 text-sm leading-relaxed text-ink">
-            <span className="font-medium">{title}</span> is on your list below.
-            Finish the request tab so we can add it for everyone.
-            <button
-              type="button"
-              className="ghost-link ml-2 text-flare"
-              onClick={() => setSent(false)}
-            >
-              Add another
-            </button>
-          </p>
+          <div className="mt-8 flex flex-col gap-3 rounded-2xl border border-line bg-card px-5 py-5 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-sm leading-relaxed text-ink">
+              <span className="font-medium">{title}</span> is on the week list.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <a
+                href="#week"
+                className="chip rounded-full border border-flare px-3.5 py-1.5 text-sm text-flare hover:bg-flare hover:text-white"
+              >
+                See it in the week
+              </a>
+              <button
+                type="button"
+                className="chip rounded-full border border-line px-3.5 py-1.5 text-sm text-ink hover:border-flare hover:text-flare"
+                onClick={() => setSent(false)}
+              >
+                Add another
+              </button>
+            </div>
+          </div>
         ) : null}
 
         <form
           onSubmit={onSubmit}
-          className="mt-8 grid gap-4 rounded-2xl border border-line bg-card px-5 py-6 sm:grid-cols-2"
+          className="mt-8 overflow-hidden rounded-[1.6rem] border border-line bg-card"
         >
-          <label className="sm:col-span-2">
-            <span className="text-[11px] tracking-[0.18em] text-mute uppercase">
-              Event name
-            </span>
-            <input
-              name="title"
-              required
-              placeholder="Devcon Builders Evening"
-              className="field mt-1.5"
+          <div className="border-b border-line bg-cream/70 px-5 py-4 sm:px-8">
+            <p className="font-display text-xl italic text-flare">This week only</p>
+            <p className="mt-1 text-sm text-mute">1–8 November 2026 · Mumbai · IST</p>
+          </div>
+
+          <div className="grid gap-6 px-5 py-7 sm:px-8 sm:py-8">
+            <div className="grid gap-6 sm:grid-cols-2">
+              <Field label="Event name" hint="Required">
+                <input
+                  name="title"
+                  required
+                  placeholder="BORN UP — Devcon Mumbai"
+                  className="field"
+                />
+              </Field>
+              <Field label="Hosts">
+                <input
+                  name="hosts"
+                  placeholder="Canton Foundation, Ledger"
+                  className="field"
+                />
+              </Field>
+            </div>
+
+            <div className="grid gap-6 sm:grid-cols-3">
+              <Field label="Date" hint="1–8 Nov">
+                <input
+                  name="date"
+                  type="date"
+                  required
+                  min="2026-11-01"
+                  max="2026-11-08"
+                  defaultValue="2026-11-03"
+                  className="field"
+                />
+              </Field>
+              <Field label="Starts">
+                <input
+                  name="start"
+                  type="time"
+                  required
+                  defaultValue="11:30"
+                  className="field"
+                />
+              </Field>
+              <Field label="Ends">
+                <input name="end" type="time" defaultValue="12:00" className="field" />
+              </Field>
+            </div>
+
+            <Field label="Venue" hint="Required">
+              <input
+                name="venue"
+                required
+                placeholder="Jio World Convention Centre"
+                className="field"
+              />
+            </Field>
+
+            <Chips
+              label="Neighbourhood"
+              value={neighborhood}
+              options={neighborhoods.map((area) => ({ value: area, label: area }))}
+              onChange={setNeighborhood}
             />
-          </label>
-          <label className="sm:col-span-2">
-            <span className="text-[11px] tracking-[0.18em] text-mute uppercase">
-              Hosts
-            </span>
-            <input
-              name="hosts"
-              placeholder="Canton Foundation, Ledger, OpenZeppelin"
-              className="field mt-1.5"
-            />
-          </label>
-          <label>
-            <span className="text-[11px] tracking-[0.18em] text-mute uppercase">
-              Date
-            </span>
-            <input
-              name="date"
-              type="date"
-              required
-              min="2026-11-01"
-              max="2026-11-08"
-              defaultValue="2026-11-05"
-              className="field mt-1.5"
-            />
-          </label>
-          <label>
-            <span className="text-[11px] tracking-[0.18em] text-mute uppercase">
-              Neighbourhood
-            </span>
-            <select name="neighborhood" defaultValue="BKC" className="field mt-1.5">
-              {neighborhoods.map((area) => (
-                <option key={area} value={area}>
-                  {area}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label>
-            <span className="text-[11px] tracking-[0.18em] text-mute uppercase">
-              Starts
-            </span>
-            <input name="start" type="time" required defaultValue="16:00" className="field mt-1.5" />
-          </label>
-          <label>
-            <span className="text-[11px] tracking-[0.18em] text-mute uppercase">
-              Ends
-            </span>
-            <input name="end" type="time" defaultValue="19:00" className="field mt-1.5" />
-          </label>
-          <label>
-            <span className="text-[11px] tracking-[0.18em] text-mute uppercase">
-              Venue
-            </span>
-            <input name="venue" required placeholder="Bandra Kurla Complex" className="field mt-1.5" />
-          </label>
-          <label>
-            <span className="text-[11px] tracking-[0.18em] text-mute uppercase">
-              Kind
-            </span>
-            <select name="type" defaultValue="mixer" className="field mt-1.5">
-              <option value="mixer">Mixer</option>
-              <option value="meetup">Meetup</option>
-              <option value="conference">Conference</option>
-              <option value="workshop">Workshop</option>
-              <option value="hackathon">Hackathon</option>
-              <option value="summit">Summit</option>
-            </select>
-          </label>
-          <label className="sm:col-span-2">
-            <span className="text-[11px] tracking-[0.18em] text-mute uppercase">
-              Registration link
-            </span>
-            <input
-              name="link"
-              type="url"
-              required
-              placeholder="https://luma.com/…"
-              className="field mt-1.5"
-            />
-          </label>
-          <label>
-            <span className="text-[11px] tracking-[0.18em] text-mute uppercase">
-              Entry
-            </span>
-            <select name="cost" defaultValue="approval" className="field mt-1.5">
-              <option value="free">Free</option>
-              <option value="paid">Paid</option>
-              <option value="approval">Invite / approval</option>
-            </select>
-          </label>
-          <label className="sm:col-span-2">
-            <span className="text-[11px] tracking-[0.18em] text-mute uppercase">
-              What it is
-            </span>
-            <textarea
-              name="description"
-              rows={3}
-              placeholder="Invite-only sundowner. Food, drinks, builders."
-              className="field mt-1.5 min-h-[5.5rem] resize-y"
-            />
-          </label>
-          <div className="sm:col-span-2">
+            <Chips label="Kind" value={type} options={kinds} onChange={setType} />
+            <Chips label="Entry" value={cost} options={entries} onChange={setCost} />
+
+            <Field label="Registration link" hint="Luma, Devcon, or your page">
+              <input
+                name="link"
+                type="url"
+                required
+                placeholder="https://luma.com/4al1ai5x"
+                className="field"
+              />
+            </Field>
+
+            <Field label="What it is">
+              <textarea
+                name="description"
+                rows={4}
+                placeholder="30-minute community networking inside Devcon. Ticket required for venue access."
+                className="field min-h-[7rem] resize-y"
+              />
+            </Field>
+          </div>
+
+          <div className="flex flex-col gap-3 border-t border-line bg-cream/60 px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+            <p className={`text-sm ${error ? "text-flare" : "text-mute"}`}>
+              {error || "Adds it to the week list straight away."}
+            </p>
             <button
               type="submit"
-              className="gold-btn cursor-pointer rounded-full px-5 py-2.5 text-sm font-semibold text-ink"
+              disabled={saving}
+              className="gold-btn cursor-pointer rounded-full px-6 py-2.5 text-sm font-semibold text-ink disabled:opacity-60"
             >
-              Add to Circuit
+              {saving ? "Adding…" : "Add to Circuit"}
             </button>
           </div>
         </form>
