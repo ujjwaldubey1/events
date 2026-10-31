@@ -14,7 +14,7 @@ export const events: CityEvent[] = [
     venue: "Mumbai residency house",
     neighborhood: "Mumbai",
     hosts: ["A36"],
-    registrationUrl: "https://allai.events/events/city/mumbai",
+    registrationUrl: "https://allai.events/event/a36-global-residency-mumbai",
     cost: "approval",
     featured: true,
     highlights: [
@@ -35,7 +35,7 @@ export const events: CityEvent[] = [
     venue: "Mumbai",
     neighborhood: "Mumbai",
     hosts: ["NEAR"],
-    registrationUrl: "https://allai.events/events/city/mumbai",
+    registrationUrl: "https://luma.com/ijy8hzbj",
     cost: "free",
   },
   {
@@ -75,7 +75,7 @@ export const events: CityEvent[] = [
     venue: "Fairmont Mumbai",
     neighborhood: "Vile Parle",
     hosts: ["India Blockchain Week"],
-    registrationUrl: "https://luma.com/n5pzchya",
+    registrationUrl: "https://luma.com/31w8qvv0",
     cost: "approval",
   },
   {
@@ -90,7 +90,7 @@ export const events: CityEvent[] = [
     venue: "Fairmont Mumbai",
     neighborhood: "Vile Parle",
     hosts: ["India Blockchain Week"],
-    registrationUrl: "https://luma.com/n5pzchya",
+    registrationUrl: "https://luma.com/hashed-6wgc",
     cost: "approval",
   },
   {
@@ -106,7 +106,7 @@ export const events: CityEvent[] = [
     neighborhood: "Andheri",
     address: "Courtyard by Marriott, Mumbai International Airport",
     hosts: ["DeFi Security Summit"],
-    registrationUrl: "https://luma.com/devcon",
+    registrationUrl: "https://luma.com/9qtxqqxx",
     cost: "paid",
     featured: true,
   },
@@ -122,7 +122,7 @@ export const events: CityEvent[] = [
     venue: "Mumbai",
     neighborhood: "Mumbai",
     hosts: ["Zcash India"],
-    registrationUrl: "https://luma.com/devcon",
+    registrationUrl: "https://luma.com/83ujl6ms",
     cost: "free",
   },
   {
@@ -138,7 +138,7 @@ export const events: CityEvent[] = [
     venue: "Navpada",
     neighborhood: "Vile Parle",
     hosts: ["NEAR Foundation", "Bitget", "Kamui Finance"],
-    registrationUrl: "https://luma.com/devcon",
+    registrationUrl: "https://luma.com/1cnairat",
     cost: "approval",
     featured: true,
   },
@@ -176,7 +176,7 @@ export const events: CityEvent[] = [
     venue: "Mumbai",
     neighborhood: "Mumbai",
     hosts: ["Arbitrum"],
-    registrationUrl: "https://luma.com/devcon",
+    registrationUrl: "https://luma.com/arbiverse-mumbai",
     cost: "free",
   },
   {
@@ -237,7 +237,7 @@ export const events: CityEvent[] = [
     venue: "Devcon 8, Jio World Centre",
     neighborhood: "BKC",
     hosts: ["DeSci Community"],
-    registrationUrl: "https://luma.com/devcon",
+    registrationUrl: "https://luma.com/mc8pq06y",
     cost: "free",
   },
   {
@@ -252,7 +252,7 @@ export const events: CityEvent[] = [
     venue: "Mumbai",
     neighborhood: "Mumbai",
     hosts: ["Ready for the Run"],
-    registrationUrl: "https://allai.events/events/city/mumbai",
+    registrationUrl: "https://luma.com/08ogvz1i",
     cost: "free",
   },
   {
@@ -267,7 +267,7 @@ export const events: CityEvent[] = [
     venue: "G Block BKC",
     neighborhood: "BKC",
     hosts: ["Starknet Foundation"],
-    registrationUrl: "https://luma.com/devcon",
+    registrationUrl: "https://luma.com/Stark-Space-Mumbai-Day-1",
     cost: "free",
   },
   {
@@ -283,7 +283,7 @@ export const events: CityEvent[] = [
     venue: "G Block BKC",
     neighborhood: "BKC",
     hosts: ["RegistryChain", "Kleros"],
-    registrationUrl: "https://luma.com/devcon",
+    registrationUrl: "https://luma.com/cw0h549b",
     cost: "approval",
     featured: true,
   },
@@ -299,7 +299,7 @@ export const events: CityEvent[] = [
     venue: "Mumbai",
     neighborhood: "Mumbai",
     hosts: ["ETHGlobal"],
-    registrationUrl: "https://ethglobal.com/",
+    registrationUrl: "https://luma.com/pragma-mumbai",
     cost: "free",
   },
   {
@@ -330,7 +330,7 @@ export const events: CityEvent[] = [
     venue: "Mumbai",
     neighborhood: "Mumbai",
     hosts: ["Builder Base"],
-    registrationUrl: "https://luma.com/devcon",
+    registrationUrl: "https://luma.com/claude-0yz1",
     cost: "free",
   },
   {
@@ -346,7 +346,7 @@ export const events: CityEvent[] = [
     venue: "Mumbai",
     neighborhood: "Mumbai",
     hosts: ["NEAR", "ArQ"],
-    registrationUrl: "https://allai.events/events/city/mumbai",
+    registrationUrl: "https://luma.com/hr8w0hmd",
     cost: "approval",
   },
   {
@@ -361,7 +361,7 @@ export const events: CityEvent[] = [
     venue: "Mumbai",
     neighborhood: "Mumbai",
     hosts: ["Zcash", "WebZero", "Bitrefill"],
-    registrationUrl: "https://luma.com/devcon",
+    registrationUrl: "https://luma.com/freesocietyhackathon",
     cost: "free",
   },
   {
@@ -376,7 +376,7 @@ export const events: CityEvent[] = [
     venue: "Bandra West",
     neighborhood: "Bandra",
     hosts: ["Monad Foundation"],
-    registrationUrl: "https://luma.com/devcon",
+    registrationUrl: "https://luma.com/Blitz-Mumbai-Devcon-2026",
     cost: "free",
   },
   {
@@ -436,7 +436,7 @@ export const events: CityEvent[] = [
     venue: "Bandra Kurla Complex",
     neighborhood: "BKC",
     hosts: ["NEAR Foundation", "Quantus"],
-    registrationUrl: "https://luma.com/devcon",
+    registrationUrl: "https://luma.com/xuofsg0p",
     cost: "approval",
   },
   {
@@ -451,7 +451,7 @@ export const events: CityEvent[] = [
     venue: "Mumbai",
     neighborhood: "Mumbai",
     hosts: ["ETHGlobal"],
-    registrationUrl: "https://ethglobal.com/",
+    registrationUrl: "https://ethglobal.com/events/mumbai",
     cost: "free",
     featured: true,
     image: "/images/card-ethglobal.jpg",
@@ -468,7 +468,7 @@ export const events: CityEvent[] = [
     venue: "Mumbai",
     neighborhood: "Mumbai",
     hosts: ["Frontier of Intelligence"],
-    registrationUrl: "https://luma.com/devcon",
+    registrationUrl: "https://luma.com/ub56pe38",
     cost: "free",
   },
   {
@@ -483,7 +483,7 @@ export const events: CityEvent[] = [
     venue: "Mumbai",
     neighborhood: "Mumbai",
     hosts: ["HeyGen Community"],
-    registrationUrl: "https://allai.events/events/city/mumbai",
+    registrationUrl: "https://luma.com/heygen-ercg",
     cost: "free",
   },
   {
@@ -498,7 +498,7 @@ export const events: CityEvent[] = [
     venue: "Mumbai",
     neighborhood: "Mumbai",
     hosts: ["Mandala Network"],
-    registrationUrl: "https://luma.com/devcon",
+    registrationUrl: "https://luma.com/v0fimew1",
     cost: "approval",
   },
   {
@@ -513,7 +513,7 @@ export const events: CityEvent[] = [
     venue: "Mumbai",
     neighborhood: "Mumbai",
     hosts: ["Secret Society"],
-    registrationUrl: "https://luma.com/devcon",
+    registrationUrl: "https://luma.com/0ej7kbb0",
     cost: "approval",
   },
 ];
