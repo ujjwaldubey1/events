@@ -1,0 +1,20 @@
+[
+  {
+    "slug": "born-up-devcon-mumbai-community-networking-meetup",
+    "title": "BORN UP — Devcon Mumbai Community Networking Meetup",
+    "description": "30-minute community networking inside Devcon. A valid Devcon ticket is required for venue access.",
+    "category": "blockchain",
+    "types": [
+      "mixer"
+    ],
+    "start": "2026-11-03T11:30:00+05:30",
+    "end": "2026-11-03T12:00:00+05:30",
+    "venue": "Jio World Convention Centre · BKC",
+    "neighborhood": "BKC",
+    "hosts": [
+      "BORN.LIVE"
+    ],
+    "registrationUrl": "https://luma.com/4al1ai5x",
+    "cost": "approval"
+  }
+]

@@ -29,7 +29,15 @@ const entries: { value: Cost; label: string }[] = [
 ];
 
 function toIso(date: string, time: string) {
-  return `${date}T${time}:00+05:30`;
+  const raw = time.trim();
+  const match = raw.match(/^(\d{1,2}):(\d{2})(?::\d{2})?\s*(AM|PM)?$/i);
+  if (!match) return `${date}T${raw}+05:30`;
+  let hour = Number(match[1]);
+  const minute = match[2];
+  const meridian = match[3]?.toUpperCase();
+  if (meridian === "PM" && hour < 12) hour += 12;
+  if (meridian === "AM" && hour === 12) hour = 0;
+  return `${date}T${String(hour).padStart(2, "0")}:${minute}:00+05:30`;
 }
 
 function Field({
@@ -140,7 +148,14 @@ export function SubmitEvent() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(listing),
       });
-      const payload = (await response.json()) as { error?: string };
+      const text = await response.text();
+      let payload: { error?: string; already?: boolean } = {};
+      try {
+        payload = text ? (JSON.parse(text) as { error?: string; already?: boolean }) : {};
+      } catch {
+        setError("Could not add that event.");
+        return;
+      }
       if (!response.ok) {
         setError(payload.error || "Could not add that event.");
         return;
