@@ -510,4 +510,10 @@ export const hubByNeighborhood: Record<string, string> = {
   Andheri: "andheri",
   Bandra: "bandra",
   Mumbai: "colaba",
+  Colaba: "colaba",
+  Worli: "colaba",
+  Fort: "colaba",
+  "Lower Parel": "colaba",
+  "Nariman Point": "colaba",
+  Kurla: "bkc",
 };
