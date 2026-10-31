@@ -17,7 +17,15 @@ export async function readAddedEvents(): Promise<CityEvent[]> {
 export async function writeAddedEvent(event: CityEvent): Promise<CityEvent[]> {
   const current = await readAddedEvents();
   const next = [...current.filter((item) => item.slug !== event.slug), event];
-  await mkdir(dirname(FILE), { recursive: true });
-  await writeFile(FILE, `${JSON.stringify(next, null, 2)}\n`, "utf8");
+  try {
+    await mkdir(dirname(FILE), { recursive: true });
+    await writeFile(FILE, `${JSON.stringify(next, null, 2)}\n`, "utf8");
+  } catch (error) {
+    const code = error instanceof Error && "code" in error ? String(error.code) : "";
+    if (code === "EROFS" || code === "EACCES" || code === "EPERM") {
+      return next;
+    }
+    throw error;
+  }
   return next;
 }

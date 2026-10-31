@@ -5,6 +5,7 @@ import { EventAfter } from "@/components/EventAfter";
 import { originFromVenue } from "@/data/around";
 import { events } from "@/data/events";
 import { ADDED_EVENT } from "@/lib/eventSlug";
+import { mergeAdded, readLocalAdded } from "@/lib/localAdded";
 import { dayPlaces, formatTime, groupByStartDay, WEEK_START_MS } from "@/lib/format";
 import type { CityEvent } from "@/lib/types";
 
@@ -13,14 +14,17 @@ export function DayList() {
 
   useEffect(() => {
     async function sync() {
+      let server: CityEvent[] = [];
       try {
         const response = await fetch("/api/events", { cache: "no-store" });
-        if (!response.ok) return;
-        const data = (await response.json()) as { events?: CityEvent[] };
-        setAdded(Array.isArray(data.events) ? data.events : []);
+        if (response.ok) {
+          const data = (await response.json()) as { events?: CityEvent[] };
+          server = Array.isArray(data.events) ? data.events : [];
+        }
       } catch {
-        setAdded([]);
+        server = [];
       }
+      setAdded(mergeAdded(server, readLocalAdded()));
     }
     void sync();
     const onAdded = () => {

@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, type FormEvent, type ReactNode } from "react";
-import { ADDED_EVENT } from "@/lib/eventSlug";
-import type { Cost, EventType } from "@/lib/types";
+import { ADDED_EVENT, slugFromTitle } from "@/lib/eventSlug";
+import { saveLocalAdded } from "@/lib/localAdded";
+import type { CityEvent, Cost, EventType } from "@/lib/types";
 
 const neighborhoods = [
   "BKC",
@@ -126,12 +127,13 @@ export function SubmitEvent() {
     setSaving(true);
     setError("");
 
-    const listing = {
+    const listing: CityEvent = {
+      slug: slugFromTitle(eventTitle) || "mumbai-event",
       title: eventTitle,
       description:
         description ||
         `${eventTitle}${hosts.length ? ` by ${hosts.join(", ")}` : ""} in ${neighborhood}.`,
-      category: "blockchain" as const,
+      category: "blockchain",
       types: [type],
       start: toIso(date, startTime),
       end: toIso(date, endTime || startTime),
@@ -142,33 +144,23 @@ export function SubmitEvent() {
       cost,
     };
 
+    saveLocalAdded(listing);
+
     try {
-      const response = await fetch("/api/events", {
+      await fetch("/api/events", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(listing),
       });
-      const text = await response.text();
-      let payload: { error?: string; already?: boolean } = {};
-      try {
-        payload = text ? (JSON.parse(text) as { error?: string; already?: boolean }) : {};
-      } catch {
-        setError("Could not add that event.");
-        return;
-      }
-      if (!response.ok) {
-        setError(payload.error || "Could not add that event.");
-        return;
-      }
-      window.dispatchEvent(new Event(ADDED_EVENT));
-      setTitle(eventTitle);
-      setSent(true);
-      form.reset();
     } catch {
-      setError("Could not add that event.");
-    } finally {
-      setSaving(false);
+      // Live hosting cannot write files. The event is already on this browser's list.
     }
+
+    window.dispatchEvent(new Event(ADDED_EVENT));
+    setTitle(eventTitle);
+    setSent(true);
+    form.reset();
+    setSaving(false);
   }
 
   return (
@@ -224,14 +216,14 @@ export function SubmitEvent() {
                 <input
                   name="title"
                   required
-                  placeholder="BORN UP — Devcon Mumbai"
+                  placeholder="Enter event name"
                   className="field"
                 />
               </Field>
               <Field label="Hosts">
                 <input
                   name="hosts"
-                  placeholder="Canton Foundation, Ledger"
+                  placeholder="Enter hosts"
                   className="field"
                 />
               </Field>
@@ -267,7 +259,7 @@ export function SubmitEvent() {
               <input
                 name="venue"
                 required
-                placeholder="Jio World Convention Centre"
+                placeholder="Enter venue"
                 className="field"
               />
             </Field>
@@ -281,12 +273,12 @@ export function SubmitEvent() {
             <Chips label="Kind" value={type} options={kinds} onChange={setType} />
             <Chips label="Entry" value={cost} options={entries} onChange={setCost} />
 
-            <Field label="Registration link" hint="Luma, Devcon, or your page">
+            <Field label="Registration link" hint="Required">
               <input
                 name="link"
                 type="url"
                 required
-                placeholder="https://luma.com/4al1ai5x"
+                placeholder="Enter registration link"
                 className="field"
               />
             </Field>
@@ -295,7 +287,7 @@ export function SubmitEvent() {
               <textarea
                 name="description"
                 rows={4}
-                placeholder="30-minute community networking inside Devcon. Ticket required for venue access."
+                placeholder="Enter what this event is"
                 className="field min-h-[7rem] resize-y"
               />
             </Field>
